@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+(C) Copyright 2015 - Present day by Igor Chernishenko.
+All rights reserved.
+-->
+<resources>
+    <string name="app_name">Draw &amp; Memo</string>
+
+    <!-- Generic strings-->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="file_prefix">DrawAndMemo_</string>
+
+    <!-- CreateMemoActivity menu actions-->
+    <string name="action_color">Change Color</string>
+    <string name="action_size">Change Size</string>
+    <string name="action_eraser">Eraser</string>
+    <string name="action_bg">Change Background</string>
+
+    <!-- CreateMemoActivity dialogs-->
+    <string name="select_color">Select Color</string>
+    <string name="select_width">Select Line Width</string>
+    <string name="select_bg_source">Select Background...</string>
+    <string name="bg_source_color">Color</string>
+    <string name="bg_source_image">Image</string>
+    <string name="select_image">Select Image</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- DrawArea messages-->
+    <string name="message_saved">Your painting has been saved to the Gallery</string>
+    <string name="message_error_saving">There was an error saving the image</string>
+    <string name="message_error_printing">Your device does not support printing</string>
+</resources>

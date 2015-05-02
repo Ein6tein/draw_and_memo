@@ -1,0 +1,41 @@
+<!--
+(C) Copyright 2015 - Present day by Igor Chernishenko.
+All rights reserved.
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/change_color"
+        android:orderInCategory="97"
+        android:title="@string/action_color"
+        app:showAsAction="always"
+        android:icon="@drawable/menu_color"
+        />
+
+    <item
+        android:id="@+id/change_size"
+        android:orderInCategory="98"
+        android:title="@string/action_size"
+        app:showAsAction="always"
+        android:icon="@drawable/menu_size"
+        />
+
+    <item
+        android:id="@+id/eraser"
+        android:orderInCategory="99"
+        android:title="@string/action_eraser"
+        app:showAsAction="always"
+        android:icon="@drawable/menu_erase"
+        />
+
+    <item
+        android:id="@+id/change_bg"
+        android:orderInCategory="100"
+        android:title="@string/action_bg"
+        app:showAsAction="always"
+        android:icon="@drawable/menu_bg"
+        />
+</menu>

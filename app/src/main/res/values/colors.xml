@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+(C) Copyright 2015 - Present day by Igor Chernishenko.
+All rights reserved.
+-->
+<resources>
+    <color name="app_primary_color">#ffd92b2b</color>
+    <color name="app_primary_color_dark">#ff921f1f</color>
+    <color name="app_window_background">#ffaca058</color>
+
+    <color name="red">#ffcc0000</color>
+    <color name="green">#ff00cc00</color>
+    <color name="blue">#ff0000cc</color>
+    <color name="red_dark">#ff990000</color>
+    <color name="green_dark">#ff009900</color>
+    <color name="blue_dark">#ff000099</color>
+    <color name="gray_777">#F777</color>
+    <color name="gray_ccc">#FCCC</color>
+</resources>

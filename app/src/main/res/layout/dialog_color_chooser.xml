@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+(C) Copyright 2015 - Present day by Igor Chernishenko.
+All rights reserved.
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/default_margin">
+
+    <View
+        android:id="@+id/color_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/demonstration_view_size"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:background="@android:color/black"
+        />
+
+    <com.rey.material.widget.Slider
+        android:id="@+id/color_red_slider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sliders_height"
+        android:layout_marginBottom="8dp"
+        app:sl_trackSize="4dp"
+        app:sl_primaryColor="@color/red"
+        app:sl_secondaryColor="@color/red_dark"
+        app:sl_thumbBorderSize="1dp"
+        app:sl_thumbRadius="12dp"
+        app:sl_thumbFocusRadius="16dp"
+        app:sl_minValue="0"
+        app:sl_maxValue="255"
+        />
+
+    <com.rey.material.widget.Slider
+        android:id="@+id/color_green_slider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sliders_height"
+        android:layout_marginBottom="8dp"
+        app:sl_trackSize="4dp"
+        app:sl_primaryColor="@color/green"
+        app:sl_secondaryColor="@color/green_dark"
+        app:sl_thumbBorderSize="1dp"
+        app:sl_thumbRadius="12dp"
+        app:sl_thumbFocusRadius="16dp"
+        app:sl_minValue="0"
+        app:sl_maxValue="255"
+        />
+
+    <com.rey.material.widget.Slider
+        android:id="@+id/color_blue_slider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sliders_height"
+        android:layout_marginBottom="8dp"
+        app:sl_trackSize="4dp"
+        app:sl_primaryColor="@color/blue"
+        app:sl_secondaryColor="@color/blue_dark"
+        app:sl_thumbBorderSize="1dp"
+        app:sl_thumbRadius="12dp"
+        app:sl_thumbFocusRadius="16dp"
+        app:sl_minValue="0"
+        app:sl_maxValue="255"
+        />
+
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+(C) Copyright 2015 - Present day by Igor Chernishenko.
+All rights reserved.
+-->
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="default_margin">16dp</dimen>
+
+    <dimen name="demonstration_view_size">100dp</dimen>
+    <dimen name="sliders_height">40dp</dimen>
+</resources>

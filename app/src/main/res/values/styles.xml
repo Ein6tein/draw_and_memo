@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+(C) Copyright 2015 - Present day by Igor Chernishenko.
+All rights reserved.
+-->
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/app_primary_color</item>
+        <item name="colorPrimaryDark">@color/app_primary_color_dark</item>
+        <item name="colorAccent">@color/app_primary_color</item>
+    </style>
+</resources>

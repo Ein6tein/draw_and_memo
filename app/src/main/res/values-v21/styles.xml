@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+(C) Copyright 2015 - Present day by Igor Chernishenko.
+All rights reserved.
+-->
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/app_primary_color</item>
+        <item name="colorPrimaryDark">@color/app_primary_color_dark</item>
+        <item name="colorAccent">@color/app_primary_color</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:windowBackground">@color/app_window_background</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+    </style>
+
+</resources>
