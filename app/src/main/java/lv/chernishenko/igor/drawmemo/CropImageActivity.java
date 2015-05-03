@@ -18,8 +18,9 @@ import lv.chernishenko.igor.drawmemo.utils.Utils;
  */
 public class CropImageActivity extends ActionBarActivity {
 
-    public static final String BITMAP_KEY = "bitmap_key";
     private static final String TAG = CropImageActivity.class.getCanonicalName();
+
+    public static final String BITMAP_KEY = "bitmap_key";
 
     private CropImageView imageView;
 

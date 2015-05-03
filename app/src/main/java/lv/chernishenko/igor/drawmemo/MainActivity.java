@@ -119,6 +119,7 @@ public class MainActivity extends ActionBarActivity {
             displayWidthChooserDialog();
             return true;
         } else if (id == R.id.eraser) {
+            // We 'toggle' eraser.
             if (isEraserEnabled) {
                 isEraserEnabled = false;
                 item.setIcon(R.drawable.menu_erase);
@@ -141,6 +142,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
+        // TODO: show warning about progress loss.
         super.onBackPressed();
     }
 
@@ -149,20 +151,25 @@ public class MainActivity extends ActionBarActivity {
         if (requestCode == IMAGE_SELECT_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Intent intent = new Intent(this, CropImageActivity.class);
-                boolean isCamera;
-                if (data == null) {
-                    isCamera = true;
-                } else {
+                // We assume, that data comes from Camera
+                boolean isCamera = true;
+                if (data != null) {
+                    // If we have data, we check for sure, did data come from Camera
                     isCamera = MediaStore.ACTION_IMAGE_CAPTURE.equals(data.getAction());
                 }
                 Uri selectedImageUri;
+                // If data came from Camera
                 if (isCamera) {
+                    // We check, do we have it
                     if (data != null) {
+                        // If yes, we use path from data
                         selectedImageUri = data.getData();
                     } else {
+                        // If no, we use path created beforehand
                         selectedImageUri = outputFileUri;
                     }
                 } else {
+                    // Else we just get path from data
                     selectedImageUri = data.getData();
                 }
                 intent.setData(selectedImageUri);
@@ -171,6 +178,8 @@ public class MainActivity extends ActionBarActivity {
         }
         if (requestCode == CROP_IMAGE_REQUEST) {
             if (resultCode == RESULT_OK) {
+                // If image was cropped successfully, we get it from storage
+                // using key, that we receive in data
                 String key = data.getStringExtra(CropImageActivity.BITMAP_KEY);
                 Bitmap bitmap = Utils.getInstance().getBitmapFromStorage(key);
                 backgroundView.setImageBitmap(bitmap);
@@ -179,15 +188,23 @@ public class MainActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * Displays color chooser dialog.
+     *
+     * @param colorForBrush - if true, color will be set for brush. Else - for background.
+     */
     private void displayColorChooserDialog(boolean colorForBrush) {
         this.colorForBrush = colorForBrush;
+        // We check, if we already have instance of dialog
         if (colorChooserDialog == null) {
+            // If no, we build it by using Dialog.Builder
             colorChooserDialog = new Dialog.Builder()
                     .title(getString(R.string.select_color))
                     .contentView(R.layout.dialog_color_chooser)
                     .positiveAction(getString(R.string.ok))
                     .negativeAction(getString(R.string.cancel))
                     .build(this);
+            // By setting it cancelable we can close it by tapping outside area
             colorChooserDialog.cancelable(true);
             colorView = colorChooserDialog.findViewById(R.id.color_view);
             redSlider = (Slider) colorChooserDialog.findViewById(R.id.color_red_slider);
@@ -214,9 +231,12 @@ public class MainActivity extends ActionBarActivity {
             colorChooserDialog.positiveActionClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // If color was set for brush
                     if (MainActivity.this.colorForBrush) {
+                        // We change color of brush
                         drawArea.setDrawingColor(lineColor.getColor());
                     } else {
+                        // Else we change color of background
                         backgroundView.setImageBitmap(null);
                         backgroundView.setBackgroundColor(backgroundColor.getColor());
                     }
@@ -230,6 +250,8 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
         }
+        // Before showing dialog we adjust color of demonstration view
+        // and positions of sliders
         int color;
         if (this.colorForBrush) {
             color = lineColor.getColor();
@@ -237,12 +259,23 @@ public class MainActivity extends ActionBarActivity {
             color = backgroundColor.getColor();
         }
         colorView.setBackgroundColor(color);
+        // Because we get color as single number, we need to use
+        // binary shifts, to get corresponding value for each Slider
         redSlider.setValue((color >> 16) & 0xFF, false);
         greenSlider.setValue((color >> 8) & 0xFF, false);
         blueSlider.setValue((color >> 0) & 0xFF, false);
         colorChooserDialog.show();
     }
 
+    /**
+     * Creates color from Sliders' values.
+     *
+     * @param redSlider - slider for red color.
+     * @param greenSlider - slider for green color.
+     * @param blueSlider - slider for blue color.
+     * @return int color. According to colorForBrush value, readjusts color
+     * of brush or background.
+     */
     private int getColor(Slider redSlider, Slider greenSlider, Slider blueSlider) {
         if (colorForBrush) {
             lineColor.setARGB(255, redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
@@ -253,15 +286,22 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Displays brush/eraser width chooser dialog.
+     */
     private void displayWidthChooserDialog() {
+        // We check, if we already have instance of dialog
         if (lineWidthChooserDialog == null) {
+            // If no, we build it by using Dialog.Builder
             lineWidthChooserDialog = new Dialog.Builder()
                     .title(getString(R.string.select_width))
                     .contentView(R.layout.dialog_width_chooser)
                     .positiveAction(getString(R.string.ok))
                     .negativeAction(getString(R.string.cancel))
                     .build(this);
+            // By setting it cancelable we can close it by tapping outside area
             lineWidthChooserDialog.cancelable(true);
+            // We create bitmap and canvas for brush width demonstration.
             final Bitmap bitmap = Bitmap.createBitmap(400, 100, Bitmap.Config.ARGB_8888);
             final Canvas canvas = new Canvas(bitmap);
             widthView = (ImageView) lineWidthChooserDialog.findViewById(R.id.width_view);
@@ -290,6 +330,12 @@ public class MainActivity extends ActionBarActivity {
         lineWidthChooserDialog.show();
     }
 
+    /**
+     * Displays demonstration of brush/eraser width.
+     *
+     * @param bitmap
+     * @param canvas
+     */
     private void showLineWidth(Bitmap bitmap, Canvas canvas) {
         lineColor.setStrokeWidth(widthSlider.getValue());
         bitmap.eraseColor(getResources().getColor(android.R.color.transparent));
@@ -297,6 +343,12 @@ public class MainActivity extends ActionBarActivity {
         widthView.setImageBitmap(bitmap);
     }
 
+    /**
+     * Displays dialog with two options:
+     *
+     * (*) Set background color.
+     * (*) Set background image.
+     */
     private void displayBgSourceChooserDialog() {
         if (bgSourceChooserDialog == null) {
             bgSourceChooserDialog = (SimpleDialog) new SimpleDialog.Builder()
@@ -305,6 +357,7 @@ public class MainActivity extends ActionBarActivity {
                     .negativeAction(getString(R.string.cancel))
                     .build(this);
             bgSourceChooserDialog.setCancelable(true);
+            // We add choices and starting position as 0.
             bgSourceChooserDialog.items(new String[]{
                     getString(R.string.bg_source_color),
                     getString(R.string.bg_source_image)
@@ -312,10 +365,12 @@ public class MainActivity extends ActionBarActivity {
             bgSourceChooserDialog.positiveActionClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // We check if any of two options was selected.
+                    // If yes, we react accordingly. Else we do nothing.
                     if (bgSourceChooserDialog.getSelectedIndex() == 0) {
                         displayColorChooserDialog(false);
                         bgSourceChooserDialog.dismiss();
-                    } else {
+                    } else if (bgSourceChooserDialog.getSelectedIndex() == 1) {
                         startImageSelection();
                         bgSourceChooserDialog.dismiss();
                     }
@@ -331,11 +386,16 @@ public class MainActivity extends ActionBarActivity {
         bgSourceChooserDialog.show();
     }
 
+    /**
+     * Starts image selection either from Camera, or from gallery, or any other app,
+     * that can provide image selection functionality.
+     */
     private void startImageSelection() {
         File root = new File(Utils.getInstance().getImagesFolder());
         root.mkdirs();
         String fileName = Utils.getInstance().getUniqueImageFilename(this) + ".jpg";
         File sdImageMainDirectory = new File(root, fileName);
+        // We create default path beforehand in case, if camera won't return data to us.
         outputFileUri = Uri.fromFile(sdImageMainDirectory);
 
         // Camera.
@@ -358,7 +418,7 @@ public class MainActivity extends ActionBarActivity {
         galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
 
         // Chooser of filesystem options.
-        Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+        Intent chooserIntent = Intent.createChooser(galleryIntent, getString(R.string.select_source));
 
         // Add the camera options.
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,

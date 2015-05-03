@@ -19,13 +19,21 @@ import lv.chernishenko.igor.drawmemo.R;
 public class Utils {
 
     private static final String TAG = Utils.class.getCanonicalName();
+
     private static Utils instance;
 
+    // Used to store cropped bitmaps for background
     private HashMap<String, Bitmap> bitmapStorage = new HashMap<>();
 
+    // We make it private so no one can create an instance of this class
     private Utils() {
     }
 
+    /**
+     * _MUST_ be called to get instance of this class.
+     *
+     * @return instance of this class.
+     */
     public static Utils getInstance() {
         if (instance == null) {
             instance = new Utils();
@@ -33,10 +41,22 @@ public class Utils {
         return instance;
     }
 
+    /**
+     * Stores bitmap into bitmap storage (HashMap).
+     *
+     * @param key - String key for bitmap, that we want to store.
+     * @param bitmap - bitmap, that we want to store.
+     */
     public void storeBitmap(String key, Bitmap bitmap) {
         bitmapStorage.put(key, bitmap);
     }
 
+    /**
+     * Get bitmap from storage (HashMap) by key.
+     *
+     * @param key - String key, to bitmap.
+     * @return if storage contains the @param key - bitmap, else - null.
+     */
     public Bitmap getBitmapFromStorage(String key) {
         if (bitmapStorage.containsKey(key)) {
             return bitmapStorage.get(key);
@@ -44,6 +64,15 @@ public class Utils {
         return null;
     }
 
+    /**
+     * Creates unique name for files/keys.
+     *
+     * @param context - used to get some resources.
+     * @return unique String name.
+     *
+     * Format of name: prefix_ddMMyy_hhmmssmmm.
+     * Uniqueness is achieved by using precise current time, 'till milliseconds.
+     */
     public String getUniqueImageFilename(Context context) {
         Calendar calendar = new GregorianCalendar();
         StringBuilder fileName = new StringBuilder()
@@ -59,6 +88,11 @@ public class Utils {
         return fileName.toString();
     }
 
+    /**
+     * Get images store folder.
+     *
+     * @return String folder path.
+     */
     public String getImagesFolder() {
         String dirPath = Environment.getExternalStorageDirectory() + File.separator
                 + "DrawAndMemoImages" + File.separator;

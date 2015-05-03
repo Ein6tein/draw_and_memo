@@ -24,6 +24,7 @@ All rights reserved.
     <string name="bg_source_color">Color</string>
     <string name="bg_source_image">Image</string>
     <string name="select_image">Select Image</string>
+    <string name="select_source">Select Source</string>
     <string name="action_settings">Settings</string>
 
     <!-- DrawArea messages-->
