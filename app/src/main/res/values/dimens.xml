@@ -9,4 +9,6 @@ All rights reserved.
 
     <dimen name="demonstration_view_size">100dp</dimen>
     <dimen name="sliders_height">40dp</dimen>
+
+    <dimen name="icons_size">48dp</dimen>
 </resources>

@@ -15,5 +15,10 @@ All rights reserved.
     <color name="green_dark">#ff009900</color>
     <color name="blue_dark">#ff000099</color>
     <color name="gray_777">#F777</color>
+    <color name="gray_444_semitransparent">#8444</color>
     <color name="gray_ccc">#FCCC</color>
+
+    <color name="priority_high">#ffff5858</color>
+    <color name="priority_medium">#ffffff58</color>
+    <color name="priority_low">#ff58ff58</color>
 </resources>

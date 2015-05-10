@@ -12,15 +12,15 @@ All rights reserved.
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <application
-        android:allowBackup="true"
+        android:name=".utils.DrawAndMemoApplication"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:screenOrientation="portrait">
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:name=".HomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,8 +29,13 @@ All rights reserved.
             </intent-filter>
         </activity>
 
-        <activity android:name=".CropImageActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".CreateMemoActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".CropImageActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

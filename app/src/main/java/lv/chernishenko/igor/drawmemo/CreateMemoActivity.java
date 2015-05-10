@@ -25,19 +25,27 @@ import com.rey.material.app.SimpleDialog;
 import com.rey.material.widget.Slider;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import lv.chernishenko.igor.drawmemo.custom.DrawAreaView;
+import lv.chernishenko.igor.drawmemo.model.Memo;
+import lv.chernishenko.igor.drawmemo.utils.DrawAndMemoApplication;
 import lv.chernishenko.igor.drawmemo.utils.Utils;
 
 /**
  * (C) Copyright 2015 - Present day by Igor Chernishenko.
  * All rights reserved.
  */
-public class MainActivity extends ActionBarActivity {
+public class CreateMemoActivity extends ActionBarActivity {
 
-    private static final String TAG = MainActivity.class.getCanonicalName();
+    private static final String TAG = CreateMemoActivity.class.getCanonicalName();
+
+    public static final String ITEM_SIZE = "item_size";
 
     private static final int IMAGE_SELECT_REQUEST = 1234;
     private static final int CROP_IMAGE_REQUEST = 9876;
@@ -63,18 +71,16 @@ public class MainActivity extends ActionBarActivity {
     private boolean isEraserEnabled = false;
     private boolean colorForBrush = true;
     private Uri outputFileUri;
+    private View drawAreaHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_create_memo);
 
-        Point displaySize = new Point();
-        getWindowManager().getDefaultDisplay().getSize(displaySize);
+        int drawAreaSize = getIntent().getIntExtra(ITEM_SIZE, 0);
 
-        int drawAreaSize = displaySize.x;
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.create_memo_activity_toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,11 +89,12 @@ public class MainActivity extends ActionBarActivity {
         drawArea = (DrawAreaView) findViewById(R.id.draw_area);
         backgroundView = (ImageView) findViewById(R.id.bg_view);
 
-        ViewGroup.LayoutParams lp = drawArea.getLayoutParams();
+        drawAreaHolder = findViewById(R.id.draw_area_holder);
+        ViewGroup.LayoutParams lp = drawAreaHolder.getLayoutParams();
         lp.width = drawAreaSize;
         lp.height = drawAreaSize;
-        drawArea.setLayoutParams(lp);
-        backgroundView.setLayoutParams(lp);
+        drawAreaHolder.setLayoutParams(lp);
+        drawAreaHolder.setDrawingCacheEnabled(true);
 
         lineColor = new Paint();
         lineColor.setStrokeCap(Paint.Cap.ROUND);
@@ -96,6 +103,47 @@ public class MainActivity extends ActionBarActivity {
         backgroundColor = new Paint();
         backgroundColor.setARGB(255, 255, 255, 255);
         backgroundView.setBackgroundColor(backgroundColor.getColor());
+
+        findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        findViewById(R.id.button_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveImage();
+            }
+        });
+    }
+
+    private void saveImage() {
+        Bitmap bitmap = drawAreaHolder.getDrawingCache();
+        String imagesFolder = Utils.getInstance().getImagesFolder();
+        String imgName = Utils.getInstance().getUniqueImageFilename(this);
+        File file = new File(imagesFolder, imgName + ".jpg");
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Memo memo = new Memo(-1, new Date(), imagesFolder + imgName + ".jpg", Memo.ALARM_OFF,
+                null, Memo.PRIORITY_LOW);
+        DrawAndMemoApplication.getAppInstance().getDbHelper().insert(memo);
+        setResult(RESULT_OK);
+        onBackPressed();
     }
 
     @Override
@@ -232,7 +280,7 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     // If color was set for brush
-                    if (MainActivity.this.colorForBrush) {
+                    if (CreateMemoActivity.this.colorForBrush) {
                         // We change color of brush
                         drawArea.setDrawingColor(lineColor.getColor());
                     } else {

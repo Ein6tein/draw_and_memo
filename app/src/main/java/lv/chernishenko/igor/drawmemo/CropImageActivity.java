@@ -1,8 +1,10 @@
 package lv.chernishenko.igor.drawmemo;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -36,6 +38,16 @@ public class CropImageActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         imageView = (CropImageView) findViewById(R.id.crop_image_view);
+        Cursor cursor = getContentResolver().query(getIntent().getData(),
+                new String[] { MediaStore.Images.ImageColumns.ORIENTATION },
+                null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int rotate = cursor.getInt(0);
+            if (rotate != -1) {
+                imageView.rotateImage(rotate);
+            }
+        }
         imageView.setImageUri(getIntent().getData());
 
         findViewById(R.id.button_ok).setOnClickListener(new View.OnClickListener() {
