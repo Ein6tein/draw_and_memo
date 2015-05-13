@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="@color/app_primary_color">
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_bg"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/button_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_bg"
+            android:text="@string/ok" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:layout_marginTop="48dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/time"
+                    style="@style/SetupAlarmTitle"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/date"
+                    style="@style/SetupAlarmTitle"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin">
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/SetupAlarmTitle"
+                    android:background="@drawable/setup_alarm_btn_bg"
+                    android:layout_marginRight="1dp"/>
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/SetupAlarmTitle"
+                    android:background="@drawable/setup_alarm_btn_bg"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_777"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/SetupAlarmTitle"
+                    android:gravity="left|center_vertical"
+                    android:text="@string/vibration"/>
+
+                <com.rey.material.widget.Switch
+                    android:id="@+id/vibration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:checked="false"
+                    app:sw_thumbColor="@color/switch_thumb_color"
+                    app:sw_trackColor="@color/switch_thumb_color"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_777"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:id="@+id/alarm_sound"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:orientation="vertical"
+                android:descendantFocusability="beforeDescendants"
+                android:background="@drawable/setup_alarm_btn_bg">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    style="@style/SetupAlarmTitle"
+                    android:gravity="left|bottom"
+                    android:text="@string/alarm"
+                    android:layout_marginBottom="4dp"
+                    android:paddingLeft="8dp"/>
+
+                <TextView
+                    android:id="@+id/alarm_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left|top"
+                    android:textColor="@color/gray_ccc"
+                    android:paddingLeft="16dp"
+                    android:lines="1"
+                    android:ellipsize="marquee"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_777"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                style="@style/SetupAlarmTitle"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:text="@string/alarm_volume"
+                android:gravity="left|center_vertical"/>
+
+            <com.rey.material.widget.Slider
+                android:id="@+id/alarm_volume"
+                android:layout_width="match_parent"
+                android:layout_height="82dp"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                app:sl_primaryColor="@color/app_primary_color"
+                app:sl_secondaryColor="@color/app_primary_color_dark"
+                app:sl_thumbBorderSize="1dp"
+                app:sl_thumbRadius="12dp"
+                app:sl_thumbFocusRadius="16dp"
+                app:sl_minValue="0"
+                app:sl_maxValue="15"
+                app:sl_discreteMode="true"
+                app:sl_textSize="16sp"
+                app:sl_stepValue="1"
+                app:sl_travelAnimDuration="30"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_777"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/SetupAlarmTitle"
+                    android:gravity="left|center_vertical"
+                    android:text="@string/repeat"/>
+
+                <com.rey.material.widget.Switch
+                    android:id="@+id/repeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:checked="false"
+                    app:sw_thumbColor="@color/switch_thumb_color"
+                    app:sw_trackColor="@color/switch_thumb_color"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_777"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:id="@+id/repeat_frequency"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:orientation="vertical"
+                android:descendantFocusability="beforeDescendants"
+                android:background="@drawable/setup_alarm_btn_bg">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    style="@style/SetupAlarmTitle"
+                    android:gravity="left|bottom"
+                    android:text="@string/repeat_frequency"
+                    android:layout_marginBottom="4dp"
+                    android:paddingLeft="8dp"/>
+
+                <TextView
+                    android:id="@+id/repeat_frequency_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left|top"
+                    android:textColor="@color/gray_ccc"
+                    android:paddingLeft="16dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

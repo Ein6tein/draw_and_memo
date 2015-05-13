@@ -20,19 +20,19 @@ public class Memo {
     private String imgPath;
     // 0 turned off, 1 - turned on
     private int alarmState;
-    private Date alarmDate;
     private int priority;
+    private int alarmId;
 
     public Memo() {
     }
 
     public Memo(int id, Date creationDate, String imgPath,
-                int alarmState, Date alarmDate, int priority) {
+                int alarmState, int alarmId, int priority) {
         this.id = id;
         this.creationDate = creationDate;
         this.imgPath = imgPath;
         this.alarmState = alarmState;
-        this.alarmDate = alarmDate;
+        this.alarmId = alarmId;
         this.priority = priority;
     }
 
@@ -68,19 +68,19 @@ public class Memo {
         this.alarmState = alarmState;
     }
 
-    public Date getAlarmDate() {
-        return alarmDate;
-    }
-
-    public void setAlarmDate(Date alarmDate) {
-        this.alarmDate = alarmDate;
-    }
-
     public int getPriority() {
         return priority;
     }
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public int getAlarmId() {
+        return alarmId;
+    }
+
+    public void setAlarmId(int alarmId) {
+        this.alarmId = alarmId;
     }
 }

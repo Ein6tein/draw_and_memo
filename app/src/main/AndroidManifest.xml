@@ -9,10 +9,11 @@ All rights reserved.
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <application
-        android:name=".utils.DrawAndMemoApplication"
+        android:name=".utils.MemoApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -36,6 +37,18 @@ All rights reserved.
         <activity
             android:name=".CropImageActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".AlarmActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".SetupAlarmActivity"
+            android:screenOrientation="portrait"/>
+
+        <receiver
+            android:process=":remote"
+            android:name=".receivers.AlarmReceiver"/>
     </application>
 
 </manifest>

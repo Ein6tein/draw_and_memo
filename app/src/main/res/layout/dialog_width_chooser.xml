@@ -34,7 +34,7 @@ All rights reserved.
         app:sl_textSize="16sp"
         app:sl_textColor="@android:color/black"
         app:sl_stepValue="1"
-        app:sl_travelAnimDuration="1"
+        app:sl_travelAnimDuration="30"
         />
 
 </LinearLayout>

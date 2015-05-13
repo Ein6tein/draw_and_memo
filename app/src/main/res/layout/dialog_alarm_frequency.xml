@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.rey.material.widget.EditText
+        android:id="@+id/period"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        style="@style/SetupAlarmTitle"
+        android:textColor="@android:color/black"
+        android:lines="1"
+        android:inputType="number"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/period"
+        app:et_inputId="@+id/period_text"
+        app:et_labelEnable="true"
+        app:et_supportMode="none"
+        />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.rey.material.widget.RadioButton
+            android:id="@+id/hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:text="@string/in_an_hour"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/black"/>
+
+        <com.rey.material.widget.RadioButton
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:text="@string/in_a_day"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/black"/>
+
+        <com.rey.material.widget.RadioButton
+            android:id="@+id/week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:text="@string/in_a_week"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/black"/>
+
+        <com.rey.material.widget.RadioButton
+            android:id="@+id/month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:text="@string/in_a_month"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/black"/>
+    </RadioGroup>
+
+</LinearLayout>

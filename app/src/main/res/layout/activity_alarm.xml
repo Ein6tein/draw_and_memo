@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/alarm_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"/>
+
+
+    <TextView
+        android:id="@+id/alarm_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/alarm_image"
+        style="@style/SetupAlarmTitle"
+        android:textSize="24sp"
+        android:layout_margin="8dp"/>
+
+    <TextView
+        android:id="@+id/alarm_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/alarm_time"
+        style="@style/SetupAlarmTitle"
+        android:layout_margin="8dp"/>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/alarm_disable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DISABLE"
+        android:textSize="24sp"
+        android:padding="20dp"
+        android:drawableTop="@drawable/ic_action_new"
+        android:background="@android:color/holo_red_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/default_margin"/>
+
+</RelativeLayout>

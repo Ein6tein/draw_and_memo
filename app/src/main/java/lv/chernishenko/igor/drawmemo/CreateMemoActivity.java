@@ -7,7 +7,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -34,7 +33,7 @@ import java.util.List;
 
 import lv.chernishenko.igor.drawmemo.custom.DrawAreaView;
 import lv.chernishenko.igor.drawmemo.model.Memo;
-import lv.chernishenko.igor.drawmemo.utils.DrawAndMemoApplication;
+import lv.chernishenko.igor.drawmemo.utils.MemoApp;
 import lv.chernishenko.igor.drawmemo.utils.Utils;
 
 /**
@@ -140,8 +139,8 @@ public class CreateMemoActivity extends ActionBarActivity {
             }
         }
         Memo memo = new Memo(-1, new Date(), imagesFolder + imgName + ".jpg", Memo.ALARM_OFF,
-                null, Memo.PRIORITY_LOW);
-        DrawAndMemoApplication.getAppInstance().getDbHelper().insert(memo);
+                -1, Memo.PRIORITY_LOW);
+        MemoApp.getAppInstance().getDbHelper().insertMemo(memo);
         setResult(RESULT_OK);
         onBackPressed();
     }

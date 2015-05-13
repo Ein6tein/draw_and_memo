@@ -1,6 +1,9 @@
 package lv.chernishenko.igor.drawmemo.utils;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
@@ -11,6 +14,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import lv.chernishenko.igor.drawmemo.R;
+import lv.chernishenko.igor.drawmemo.receivers.AlarmReceiver;
 
 /**
  * (C) Copyright 2015 - Present day by Igor Chernishenko.
@@ -22,8 +26,12 @@ public class Utils {
 
     private static Utils instance;
 
+    private AlarmManager alarmMgr;
+
     // Used to store cropped bitmaps for background
     private HashMap<String, Bitmap> bitmapStorage = new HashMap<>();
+
+    private HashMap<Integer, PendingIntent> intentStorage = new HashMap<>();
 
     // We make it private so no one can create an instance of this class
     private Utils() {
@@ -98,4 +106,26 @@ public class Utils {
                 + "DrawAndMemoImages" + File.separator;
         return dirPath;
     }
+
+    public void createAlarm(Context context, int memoId, long time) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(AlarmReceiver.MEMO_ID, memoId);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        if (alarmMgr == null) {
+            alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        }
+        if (intentStorage.containsKey(memoId)) {
+            intentStorage.remove(memoId);
+        }
+        intentStorage.put(memoId, alarmIntent);
+        alarmMgr.set(AlarmManager.RTC_WAKEUP, time, alarmIntent);
+    }
+
+    public void removeAlarm(int memoId) {
+        if (intentStorage.containsKey(memoId)) {
+            intentStorage.get(memoId).cancel();
+            intentStorage.remove(memoId);
+        }
+    }
+
 }

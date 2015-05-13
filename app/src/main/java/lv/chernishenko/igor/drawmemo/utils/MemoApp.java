@@ -8,13 +8,13 @@ import lv.chernishenko.igor.drawmemo.database.AppDatabaseHelper;
  * (C) Copyright 2015 - Present day by Igor Chernishenko.
  * All rights reserved.
  */
-public class DrawAndMemoApplication extends Application {
+public class MemoApp extends Application {
 
-    private static DrawAndMemoApplication appInstance;
+    private static MemoApp appInstance;
 
     private static AppDatabaseHelper dbHelper;
 
-    public static DrawAndMemoApplication getAppInstance() {
+    public static MemoApp getAppInstance() {
         return appInstance;
     }
 

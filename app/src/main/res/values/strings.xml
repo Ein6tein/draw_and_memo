@@ -31,4 +31,22 @@ All rights reserved.
     <string name="message_saved">Your painting has been saved to the Gallery</string>
     <string name="message_error_saving">There was an error saving the image</string>
     <string name="message_error_printing">Your device does not support printing</string>
+
+    <!-- Create AlarmActivity-->
+    <string name="time">TIME</string>
+    <string name="date">DATE</string>
+    <string name="vibration">Vibration</string>
+    <string name="alarm">Alarm</string>
+    <string name="select">Select</string>
+    <string name="alarm_volume">Alarm Volume</string>
+    <string name="repeat">Repeat</string>
+    <string name="repeat_frequency">Repeat once...</string>
+    <string name="period">Period: </string>
+    <string name="in_an_hour">In %s hour(s)</string>
+    <string name="in_a_day">In %s day(s)</string>
+    <string name="in_a_week">In %s week(s)</string>
+    <string name="in_a_month">In %s month(s)</string>
+
+    <!-- HomeActivity toasts-->
+    <string name="memo_created">Memo successfully created!</string>
 </resources>

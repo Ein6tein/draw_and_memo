@@ -10,4 +10,11 @@ All rights reserved.
         <item name="colorPrimaryDark">@color/app_primary_color_dark</item>
         <item name="colorAccent">@color/app_primary_color</item>
     </style>
+
+    <!-- Setup Alarm Title styles-->
+    <style name="SetupAlarmTitle">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>
