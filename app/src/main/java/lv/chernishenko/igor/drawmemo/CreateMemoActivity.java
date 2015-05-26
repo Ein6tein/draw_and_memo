@@ -121,8 +121,12 @@ public class CreateMemoActivity extends ActionBarActivity {
     private void saveImage() {
         Bitmap bitmap = drawAreaHolder.getDrawingCache();
         String imagesFolder = Utils.getInstance().getImagesFolder();
+        File root = new File(imagesFolder);
+        if (!root.exists()) {
+            root.mkdir();
+        }
         String imgName = Utils.getInstance().getUniqueImageFilename(this);
-        File file = new File(imagesFolder, imgName + ".jpg");
+        File file = new File(root, imgName + ".jpg");
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(file);
@@ -259,19 +263,19 @@ public class CreateMemoActivity extends ActionBarActivity {
             blueSlider = (Slider) colorChooserDialog.findViewById(R.id.color_blue_slider);
             redSlider.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                 @Override
-                public void onPositionChanged(Slider slider, float v, float v2, int i, int i2) {
+                public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
                     colorView.setBackgroundColor(getColor(redSlider, greenSlider, blueSlider));
                 }
             });
             greenSlider.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                 @Override
-                public void onPositionChanged(Slider slider, float v, float v2, int i, int i2) {
+                public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
                     colorView.setBackgroundColor(getColor(redSlider, greenSlider, blueSlider));
                 }
             });
             blueSlider.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                 @Override
-                public void onPositionChanged(Slider slider, float v, float v2, int i, int i2) {
+                public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
                     colorView.setBackgroundColor(getColor(redSlider, greenSlider, blueSlider));
                 }
             });
@@ -356,7 +360,7 @@ public class CreateMemoActivity extends ActionBarActivity {
             showLineWidth(bitmap, canvas);
             widthSlider.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                 @Override
-                public void onPositionChanged(Slider slider, float v, float v1, int i, int i1) {
+                public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
                     showLineWidth(bitmap, canvas);
                 }
             });

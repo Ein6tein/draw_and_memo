@@ -49,4 +49,5 @@ All rights reserved.
 
     <!-- HomeActivity toasts-->
     <string name="memo_created">Memo successfully created!</string>
+    <string name="alarm_created">Alarm successfully created!</string>
 </resources>

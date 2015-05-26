@@ -23,7 +23,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = AppDatabaseHelper.class.getCanonicalName();
 
     private static final String DATABASE_NAME = "draw_and_memo_db";
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
 
     private static final String MEMOS_TABLE_NAME = "memos";
     private static final String ALARM_TABLE_NAME = "alarm";
@@ -47,11 +47,11 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
             CREATION_DATE + " DATETIME NOT NULL," +
             IMG_PATH + " TEXT NOT NULL," +
-            ALARM_STATE + " INTEGER," +
+            ALARM_STATE + " INTEGER NOT NULL," +
             PRIORITY + " INTEGER NOT NULL," +
             ALARM_ID + " INTEGER," +
-            "FOREIGN KEY (" + ALARM_ID + ") REFERENCES " + ALARM_TABLE_NAME + ID +
-            ");";
+            "FOREIGN KEY (" + ALARM_ID + ") REFERENCES " + ALARM_TABLE_NAME + "(" + ID +
+            "));";
 
     private static final String CREATE_ALARM_TABLE =
             "CREATE TABLE " + ALARM_TABLE_NAME + "(" +
@@ -151,17 +151,14 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         }
 
         SQLiteDatabase db = getWritableDatabase();
-        long insert = db.insert(ALARM_TABLE_NAME, null, values);
-        Log.d(TAG, "insert worked: " + (insert != 0));
+        db.insert(ALARM_TABLE_NAME, null, values);
         db.close();
         SQLiteDatabase rdb = getReadableDatabase();
         Cursor cursor = rdb.rawQuery(LAST_ALARM_ID, null);
         int alarmId = -1;
         if (cursor.moveToFirst()) {
-            Log.d(TAG, "moved to first");
             alarmId = cursor.getInt(cursor.getColumnIndex(ID));
         }
-        Log.d(TAG, "id: " + alarmId);
         cursor.close();
         return alarmId;
     }

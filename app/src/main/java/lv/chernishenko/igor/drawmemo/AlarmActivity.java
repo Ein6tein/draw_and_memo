@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -19,7 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import de.greenrobot.event.EventBus;
 import lv.chernishenko.igor.drawmemo.model.Alarm;
+import lv.chernishenko.igor.drawmemo.model.AlarmMessage;
 import lv.chernishenko.igor.drawmemo.model.Memo;
 import lv.chernishenko.igor.drawmemo.receivers.AlarmReceiver;
 import lv.chernishenko.igor.drawmemo.utils.MemoApp;
@@ -31,12 +34,13 @@ import lv.chernishenko.igor.drawmemo.utils.Utils;
  */
 public class AlarmActivity extends ActionBarActivity {
 
-    private static final int MAX_VOLUME = 15;
+    private static final int MAX_VOLUME = 16;
 
     private MediaPlayer mp;
     private Vibrator vibrator;
     private Memo memo;
     private Alarm alarm;
+    private int streamVolume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,34 +65,7 @@ public class AlarmActivity extends ActionBarActivity {
         findViewById(R.id.alarm_disable).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mp.stop();
-                vibrator.cancel();
-                if (memo != null && alarm != null) {
-                    if (alarm.isRepeat()) {
-                        Calendar calendar = new GregorianCalendar();
-                        calendar.setTime(alarm.getDate());
-                        int frequency = alarm.getRepeatFrequency();
-                        if (alarm.getRepeatPeriod() == Alarm.HOUR) {
-                            calendar.add(Calendar.HOUR, frequency);
-                        } else if (alarm.getRepeatPeriod() == Alarm.DAY) {
-                            calendar.add(Calendar.DAY_OF_MONTH, frequency);
-                        } else if (alarm.getRepeatPeriod() == Alarm.WEEK) {
-                            calendar.add(Calendar.WEEK_OF_MONTH, frequency);
-                        } else if (alarm.getRepeatPeriod() == Alarm.MONTH) {
-                            calendar.add(Calendar.MONTH, frequency);
-                        }
-                        alarm.setDate(calendar.getTime());
-                        MemoApp.getAppInstance().getDbHelper().updateAlarm(alarm);
-                        Utils.getInstance().createAlarm(AlarmActivity.this, memo.getId(),
-                                alarm.getDate().getTime());
-                    } else {
-                        memo.setAlarmState(Memo.ALARM_OFF);
-                        memo.setAlarmId(-1);
-                        MemoApp.getAppInstance().getDbHelper().updateMemo(memo);
-                        Utils.getInstance().removeAlarm(memo.getId());
-                    }
-                }
-                finish();
+                onBackPressed();
             }
         });
 
@@ -114,9 +91,13 @@ public class AlarmActivity extends ActionBarActivity {
                         try {
                             File soundFile = new File(alarm.getAlarmSoundUri().getPath());
                             mp.setDataSource(soundFile.getAbsolutePath());
-                            float log1 = (float)
+                            AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                            streamVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+                            am.setStreamVolume(AudioManager.STREAM_MUSIC,
+                                    am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+                            float volFloat = 1 - (float)
                                   (Math.log(MAX_VOLUME - alarm.getVolume()) / Math.log(MAX_VOLUME));
-                            mp.setVolume(log1, log1);
+                            mp.setVolume(volFloat, volFloat);
                             mp.prepare();
                             mp.start();
                         } catch (IOException e) {
@@ -126,5 +107,40 @@ public class AlarmActivity extends ActionBarActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mp.stop();
+        vibrator.cancel();
+        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, streamVolume, 0);
+        if (memo != null && alarm != null) {
+            if (alarm.isRepeat()) {
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(alarm.getDate());
+                int frequency = alarm.getRepeatFrequency();
+                if (alarm.getRepeatPeriod() == Alarm.HOUR) {
+                    calendar.add(Calendar.HOUR, frequency);
+                } else if (alarm.getRepeatPeriod() == Alarm.DAY) {
+                    calendar.add(Calendar.DAY_OF_MONTH, frequency);
+                } else if (alarm.getRepeatPeriod() == Alarm.WEEK) {
+                    calendar.add(Calendar.WEEK_OF_MONTH, frequency);
+                } else if (alarm.getRepeatPeriod() == Alarm.MONTH) {
+                    calendar.add(Calendar.MONTH, frequency);
+                }
+                alarm.setDate(calendar.getTime());
+                MemoApp.getAppInstance().getDbHelper().updateAlarm(alarm);
+                Utils.getInstance().createAlarm(AlarmActivity.this, memo.getId(),
+                        alarm.getDate().getTime());
+            } else {
+                memo.setAlarmState(Memo.ALARM_OFF);
+                memo.setAlarmId(-1);
+                MemoApp.getAppInstance().getDbHelper().updateMemo(memo);
+                Utils.getInstance().removeAlarm(memo.getId());
+            }
+        }
+        EventBus.getDefault().post(new AlarmMessage());
+        super.onBackPressed();
     }
 }

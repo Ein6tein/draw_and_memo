@@ -17,4 +17,10 @@ All rights reserved.
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">18sp</item>
     </style>
+
+    <!-- TimePickerDialog style to turn on 24-hour mode-->
+    <style name="TimePicker" parent="Material.Widget.TimePicker">
+        <item name="tp_24Hour">true</item>
+        <item name="tp_backgroundColor">@color/gray_999</item>
+    </style>
 </resources>

@@ -67,7 +67,6 @@ public class SetupAlarmActivity extends ActionBarActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_alarm);
 
-
         memoId = getIntent().getIntExtra(MEMO_ID, -1);
         alarmId = getIntent().getIntExtra(ALARM_ID, -1);
         if (alarmId == -1) {
@@ -280,6 +279,7 @@ public class SetupAlarmActivity extends ActionBarActivity implements View.OnClic
                 .positiveAction(getString(R.string.ok))
                 .negativeAction(getString(R.string.cancel))
                 .build(this);
+        dialog.applyStyle(R.style.TimePicker);
         dialog.positiveActionClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

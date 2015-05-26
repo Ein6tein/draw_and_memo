@@ -21,6 +21,8 @@ import com.rey.material.widget.CheckBox;
 
 import java.util.Set;
 
+import de.greenrobot.event.EventBus;
+import lv.chernishenko.igor.drawmemo.model.AlarmMessage;
 import lv.chernishenko.igor.drawmemo.model.Memo;
 import lv.chernishenko.igor.drawmemo.utils.MemoApp;
 import lv.chernishenko.igor.drawmemo.utils.Utils;
@@ -73,6 +75,8 @@ public class HomeActivity extends ActionBarActivity {
                 startActivityForResult(intent, CREATE_MEMO_REQUEST);
             }
         });
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -87,7 +91,6 @@ public class HomeActivity extends ActionBarActivity {
             if (resultCode == RESULT_OK) {
                 int memoId = data.getIntExtra(SetupAlarmActivity.MEMO_ID, -1);
                 int alarmId = data.getIntExtra(SetupAlarmActivity.ALARM_ID, -1);
-                Log.d(TAG, "memoId: " + memoId + " alarmId: " + alarmId);
                 if (memoId != -1 && alarmId != -1) {
                     Memo memo = MemoApp.getAppInstance().getDbHelper().getMemoById(memoId);
                     if (memo != null) {
@@ -95,6 +98,7 @@ public class HomeActivity extends ActionBarActivity {
                         memo.setAlarmId(alarmId);
                         MemoApp.getAppInstance().getDbHelper().updateMemo(memo);
                         adapter.updateMemo(memo);
+                        Toast.makeText(this, R.string.alarm_created, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -103,10 +107,22 @@ public class HomeActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
     private void displayAlarmSetupActivity(Memo memo) {
         Intent intent = new Intent(this, SetupAlarmActivity.class);
         intent.putExtra(SetupAlarmActivity.MEMO_ID, memo.getId());
         startActivityForResult(intent, CREATE_ALARM_REQUEST);
+    }
+
+    public void onEvent(AlarmMessage message) {
+        if (message != null) {
+            adapter.updateDataSet(MemoApp.getAppInstance().getDbHelper().getAllMemos());
+        }
     }
 
     /**
@@ -134,8 +150,9 @@ public class HomeActivity extends ActionBarActivity {
             private View alarmIcon;
             private View priorityIcon;
             private CheckBox checkIcon;
+            private int position = -1;
 
-            public ViewHolder(View itemView, final int position) {
+            public ViewHolder(View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
                 itemView.setOnLongClickListener(this);
@@ -150,14 +167,14 @@ public class HomeActivity extends ActionBarActivity {
                 alarmIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Memo memo = memos[position];
+                        Memo memo = memos[ViewHolder.this.position];
                         setMemoAlarmState(memo, alarmIcon);
                     }
                 });
                 priorityIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Memo memo = memos[position];
+                        Memo memo = memos[ViewHolder.this.position];
                         setMemoPriority(memo, priorityIcon);
                     }
                 });
@@ -190,14 +207,16 @@ public class HomeActivity extends ActionBarActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View v = LayoutInflater.from(context).inflate(R.layout.home_list_item, viewGroup, false);
-            ViewHolder vh = new ViewHolder(v, i);
+            ViewHolder vh = new ViewHolder(v);
             return vh;
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             Memo memo = memos[position];
-
+            if (holder.position == -1) {
+                holder.position = position;
+            }
             Bitmap bitmap = BitmapFactory.decodeFile(memo.getImgPath());
             holder.image.setImageBitmap(bitmap);
 
