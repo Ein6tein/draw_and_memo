@@ -142,7 +142,9 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
 
         values.put(ALARM_DATE, iso8601Format.format(alarm.getDate()));
         values.put(VIBRATION, alarm.isVibrate());
-        values.put(ALARM_SOUND_URI, alarm.getAlarmSoundUri().getPath());
+        if (alarm.getAlarmSoundUri() != null) {
+            values.put(ALARM_SOUND_URI, alarm.getAlarmSoundUri().getPath());
+        }
         values.put(ALARM_VOLUME, alarm.getVolume());
         values.put(REPEAT, alarm.isRepeat());
         if (alarm.isRepeat()) {
@@ -168,7 +170,9 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
 
         values.put(ALARM_DATE, iso8601Format.format(alarm.getDate()));
         values.put(VIBRATION, alarm.isVibrate());
-        values.put(ALARM_SOUND_URI, alarm.getAlarmSoundUri().getPath());
+        if (alarm.getAlarmSoundUri() != null) {
+            values.put(ALARM_SOUND_URI, alarm.getAlarmSoundUri().getPath());
+        }
         values.put(ALARM_VOLUME, alarm.getVolume());
         values.put(REPEAT, alarm.isRepeat());
         if (alarm.isRepeat()) {
@@ -252,8 +256,10 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
                 e.printStackTrace();
             }
             alarm.setVibrate(cursor.getInt(cursor.getColumnIndex(VIBRATION)) != 0);
-            alarm.setAlarmSoundUri(
-                    Uri.parse(cursor.getString(cursor.getColumnIndex(ALARM_SOUND_URI))));
+            if (!cursor.isNull(cursor.getColumnIndex(ALARM_SOUND_URI))) {
+                alarm.setAlarmSoundUri(
+                        Uri.parse(cursor.getString(cursor.getColumnIndex(ALARM_SOUND_URI))));
+            }
             alarm.setVolume(cursor.getInt(cursor.getColumnIndex(ALARM_VOLUME)));
             alarm.setRepeat(cursor.getInt(cursor.getColumnIndex(REPEAT)) != 0);
             alarm.setRepeatFrequency(cursor.getInt(cursor.getColumnIndex(REPEAT_FREQUENCY)));

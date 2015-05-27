@@ -65,8 +65,6 @@ public class HomeActivity extends ActionBarActivity {
                 itemSize - 2 * getResources().getDimensionPixelSize(R.dimen.default_margin));
         memosListView.setAdapter(adapter);
 
-        adapter.updateDataSet(MemoApp.getAppInstance().getDbHelper().getAllMemos());
-
         findViewById(R.id.home_fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,8 +73,6 @@ public class HomeActivity extends ActionBarActivity {
                 startActivityForResult(intent, CREATE_MEMO_REQUEST);
             }
         });
-
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -108,21 +104,15 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
+    protected void onStart() {
+        super.onStart();
+        adapter.updateDataSet(MemoApp.getAppInstance().getDbHelper().getAllMemos());
     }
 
     private void displayAlarmSetupActivity(Memo memo) {
         Intent intent = new Intent(this, SetupAlarmActivity.class);
         intent.putExtra(SetupAlarmActivity.MEMO_ID, memo.getId());
         startActivityForResult(intent, CREATE_ALARM_REQUEST);
-    }
-
-    public void onEvent(AlarmMessage message) {
-        if (message != null) {
-            adapter.updateDataSet(MemoApp.getAppInstance().getDbHelper().getAllMemos());
-        }
     }
 
     /**

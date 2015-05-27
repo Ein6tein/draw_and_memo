@@ -40,7 +40,7 @@ public class AlarmActivity extends ActionBarActivity {
     private Vibrator vibrator;
     private Memo memo;
     private Alarm alarm;
-    private int streamVolume;
+    private int streamVolume = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,21 +87,23 @@ public class AlarmActivity extends ActionBarActivity {
                             vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(new long[]{300, 500}, 0);
                         }
-                        mp = new MediaPlayer();
-                        try {
-                            File soundFile = new File(alarm.getAlarmSoundUri().getPath());
-                            mp.setDataSource(soundFile.getAbsolutePath());
-                            AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-                            streamVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
-                            am.setStreamVolume(AudioManager.STREAM_MUSIC,
-                                    am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
-                            float volFloat = 1 - (float)
-                                  (Math.log(MAX_VOLUME - alarm.getVolume()) / Math.log(MAX_VOLUME));
-                            mp.setVolume(volFloat, volFloat);
-                            mp.prepare();
-                            mp.start();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        if (alarm.getAlarmSoundUri() != null) {
+                            mp = new MediaPlayer();
+                            try {
+                                File soundFile = new File(alarm.getAlarmSoundUri().getPath());
+                                mp.setDataSource(soundFile.getAbsolutePath());
+                                AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                                streamVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+                                am.setStreamVolume(AudioManager.STREAM_MUSIC,
+                                        am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+                                float volFloat = 1 - (float)
+                                        (Math.log(MAX_VOLUME - alarm.getVolume()) / Math.log(MAX_VOLUME));
+                                mp.setVolume(volFloat, volFloat);
+                                mp.prepare();
+                                mp.start();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -111,10 +113,16 @@ public class AlarmActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        mp.stop();
-        vibrator.cancel();
-        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, streamVolume, 0);
+        if (mp != null) {
+            mp.stop();
+        }
+        if (vibrator != null) {
+            vibrator.cancel();
+        }
+        if (streamVolume != -1) {
+            AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+            am.setStreamVolume(AudioManager.STREAM_MUSIC, streamVolume, 0);
+        }
         if (memo != null && alarm != null) {
             if (alarm.isRepeat()) {
                 Calendar calendar = new GregorianCalendar();
@@ -140,7 +148,6 @@ public class AlarmActivity extends ActionBarActivity {
                 Utils.getInstance().removeAlarm(memo.getId());
             }
         }
-        EventBus.getDefault().post(new AlarmMessage());
         super.onBackPressed();
     }
 }
